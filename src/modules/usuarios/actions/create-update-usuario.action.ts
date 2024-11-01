@@ -5,13 +5,16 @@ import { useAuthStore } from '../../auth/stores/auth.store'
 const authStore = useAuthStore()
 export const createUpdateUsuarioAction = async (usuario: Partial<Usuario>) => {
   if (usuario.id) {
-    return await updateUsuarioAction(usuario)
+    return await updateUsuarioAction(+usuario.id, usuario)
   } else {
     return await createUsuarioAction(usuario)
   }
 }
 
-const updateUsuarioAction = async (usuario: Partial<Usuario>) => {
+const updateUsuarioAction = async (
+  usuarioId: number,
+  usuario: Partial<Usuario>,
+) => {
   delete usuario.id
   delete usuario.hasDebt
   delete usuario.makeInvoice
@@ -23,7 +26,7 @@ const updateUsuarioAction = async (usuario: Partial<Usuario>) => {
   // delete usuario.status
   usuario.employee = authStore.user?.user_id
   try {
-    const { data } = await api.put<Usuario>(`/usuario/${usuario.id}/`, usuario)
+    const { data } = await api.put<Usuario>(`/usuario/${usuarioId}/`, usuario)
 
     console.log(data)
     return data

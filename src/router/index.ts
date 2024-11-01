@@ -34,6 +34,21 @@ const router = createRouter({
           component: () =>
             import('@/modules/usuarios/views/UsuarioFormView.vue'),
         },
+        {
+          path: '/usuarios/invoicing/:usuarioId',
+          name: 'usuario-invoicing',
+          props: true,
+          beforeEnter: [isAuthenticatedGuard],
+          component: () =>
+            import('@/modules/usuarios/views/UsuarioInvoicing.vue'),
+        },
+        {
+          path: '/monitoring',
+          name: 'monitoring',
+          beforeEnter: [isAuthenticatedGuard],
+          component: () =>
+            import('@/modules/monitoring/views/MonitoringView.vue'),
+        },
       ],
     },
     authRoutes,

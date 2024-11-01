@@ -27,7 +27,7 @@
         </RouterLink>
         <div>
           <h2 class="card-title text-primary font-bold">Usuarios</h2>
-          <p>Edicion de Usuarios</p>
+          <p>{{ values.id ? 'Edición' : 'Creación' }} de Usuario</p>
         </div>
         <!-- Boton de accion -->
       </div>

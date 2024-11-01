@@ -12,8 +12,8 @@ const isAuthenticatedGuard = async (
   // console.log(to);
   await authStore.checkAuthStatus()
 
-  console.log('isAuthenticatedGuard')
-  console.log(authStore.authStatus === AuthStatus.UNAUTHENTICATED)
+  // console.log('isAuthenticatedGuard')
+  // console.log(authStore.authStatus === AuthStatus.UNAUTHENTICATED)
 
   if (
     to.name !== 'Login' &&

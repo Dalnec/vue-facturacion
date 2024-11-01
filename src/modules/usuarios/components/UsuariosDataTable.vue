@@ -3,7 +3,7 @@
     <table class="table">
       <!-- head -->
       <thead>
-        <tr>
+        <tr class="text-sm">
           <th class="text-center p-1"></th>
           <th class="text-center p-1">Familia</th>
           <th class="text-center p-1">Representante</th>

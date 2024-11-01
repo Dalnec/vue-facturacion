@@ -20,7 +20,7 @@
 interface Props {
   modelValue?: string | number
   error?: string
-  type?: 'text' | 'number'
+  type?: 'text' | 'number' | 'password'
 }
 
 withDefaults(defineProps<Props>(), {

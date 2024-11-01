@@ -73,9 +73,28 @@
           <li>
             <RouterLink :to="`/usuarios/form/${usuario.id}`">Editar</RouterLink>
           </li>
-          <li><a>Cobrar</a></li>
-          <li><a>Facturar</a></li>
-          <li><a>Contraseña</a></li>
+          <li>
+            <RouterLink
+              :to="`/usuarios/invoicing/${usuario.id}`"
+              @click="
+                () => {
+                  usuarioStore.updateSelectedUsuario(usuario)
+                }
+              "
+              >Facturación</RouterLink
+            >
+          </li>
+          <li>
+            <a
+              @click="
+                () => {
+                  usuarioStore.updateSelectedUsuario(usuario)
+                  usuarioStore.openPasswordModal = true
+                }
+              "
+              >Contraseña</a
+            >
+          </li>
         </ul>
       </div>
     </td>
@@ -83,7 +102,9 @@
 </template>
 <script setup lang="ts">
 import type { Usuario } from '../interfaces/usuario.interface'
+import { useUsuarioStore } from '../store/usuario.store'
 
+const usuarioStore = useUsuarioStore()
 interface Props {
   usuario: Usuario
   index: number

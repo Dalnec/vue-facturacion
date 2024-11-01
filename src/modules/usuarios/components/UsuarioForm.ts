@@ -29,8 +29,8 @@ export default defineComponent({
       isError,
       isLoading,
     } = useQuery({
-      queryKey: ['usuario', props.usuarioId],
-      queryFn: () => getUsuarioByIdAction(props.usuarioId),
+      queryKey: ['usuario', +props.usuarioId],
+      queryFn: () => getUsuarioByIdAction(+props.usuarioId),
       retry: false,
     })
 

@@ -11,7 +11,7 @@ const isNotAuthenticatedGuard = async (
 
   await authStore.checkAuthStatus()
 
-  console.log('isNotAuthenticatedGuard')
+  // console.log('isNotAuthenticatedGuard')
   if (authStore.authStatus === AuthStatus.AUTHENTICATED) {
     next({ name: 'main' })
   } else next()

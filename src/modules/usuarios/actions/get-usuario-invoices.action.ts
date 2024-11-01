@@ -1,22 +1,22 @@
 import { api } from '@/api/api'
-import type { UsuarioResponse } from '../interfaces/usuario.interface'
-
+import type { InvoiceResponse } from '../interfaces/invoice.interface'
 interface FilterParams {
   search: string | null
   hasDebt: boolean | null
   makeInvoice: boolean | null
 }
-export const getUsuariosAction = async (
+export const getInvoicesAction = async (
   page: number = 1,
   page_size: number = 20,
+  usuario: number,
   params?: FilterParams,
 ) => {
   try {
-    const { data } = await api.get<UsuarioResponse>(`/usuario/`, {
-      params: { page, page_size, ...params },
+    const { data } = await api.get<InvoiceResponse>(`/invoice/`, {
+      params: { page, page_size, usuario, ordering: '-id', ...params },
     })
 
-    // console.log(data)
+    // console.log('api invoices', data)
     return data.results
   } catch (error) {
     console.log(error)

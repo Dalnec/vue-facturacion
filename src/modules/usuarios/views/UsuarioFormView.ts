@@ -35,7 +35,7 @@ export default defineComponent({
       isLoading,
       refetch,
     } = useQuery({
-      queryKey: ['usuario', props.usuarioId],
+      queryKey: ['usuario', +props.usuarioId],
       queryFn: () => getUsuarioByIdAction(+props.usuarioId),
       retry: false,
     })

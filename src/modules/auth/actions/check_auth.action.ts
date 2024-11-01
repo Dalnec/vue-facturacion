@@ -17,7 +17,7 @@ export const checkAuthAction = async (): Promise<CheckError | CheckSuccess> => {
     const localToken = localStorage.getItem('token')
     if (!localToken) return { success: false }
     const { data } = await api.get<LoginResponse>('/user/auth_check/')
-    console.log('ACTION')
+    // console.log('ACTION')
 
     return {
       success: true,

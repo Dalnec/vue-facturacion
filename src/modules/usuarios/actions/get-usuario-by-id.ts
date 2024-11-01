@@ -2,7 +2,6 @@ import { api } from '@/api/api'
 import type { Usuario } from '../interfaces/usuario.interface'
 
 export const getUsuarioByIdAction = async (id: number): Promise<Usuario> => {
-  console.log({ id })
   if (isNaN(id)) {
     return {
       id: 0,
@@ -29,7 +28,7 @@ export const getUsuarioByIdAction = async (id: number): Promise<Usuario> => {
   try {
     const { data } = await api.get<Usuario>(`/usuario/${id}`)
 
-    console.log(data)
+    // console.log(data)
     return data
   } catch (error) {
     console.log(error)

@@ -8,14 +8,12 @@
           <UsersMenu />
           Usuarios
         </RouterLink>
-        <!-- <a>
-        </a> -->
       </li>
       <li>
-        <a>
+        <RouterLink to="/monitoring">
           <MonitoringIcon />
           Monitoreo
-        </a>
+        </RouterLink>
       </li>
       <li>
         <a>
