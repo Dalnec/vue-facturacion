@@ -214,12 +214,14 @@ const onSubmit = handleSubmit(values => {
   mutate(values)
 })
 
-watchEffect(() => {
-  if (isError.value && !isLoading.value) {
-    router.replace('/employee')
-    return
-  }
-})
+// watchEffect(() => {
+//   console.log('isError.value', isError.value)
+
+//   if (isError.value && !isLoading.value) {
+//     router.replace('/employee')
+//     return
+//   }
+// })
 
 watch(
   employee,
