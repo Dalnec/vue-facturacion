@@ -1,0 +1,134 @@
+<template>
+  <div>
+    <dialog class="modal" :open="open">
+      <div class="modal-box">
+        <span class="text-lg font-bold text-primary"
+          >Cambiar Contraseña {{ employee.names }}</span
+        >
+        <div class="modal-action flex flex-col bg-white rounded-lg">
+          <form class="p-4" @submit.prevent="onSubmit()">
+            <div class="first-col">
+              <div class="mb-4">
+                <label for="newpassword" class="form-label"
+                  >Nueva Contraseña</label
+                >
+                <CustomInput
+                  v-model="newpassword"
+                  v-bind="newpasswordAttrs"
+                  :error="errors.newpassword"
+                  type="password"
+                />
+              </div>
+              <div class="mb-4">
+                <label for="newpassword2" class="form-label"
+                  >Repetir Nueva Contraseña</label
+                >
+                <CustomInput
+                  v-model="newpassword2"
+                  v-bind="newpassword2Attrs"
+                  :error="errors.newpassword2"
+                  type="password"
+                />
+              </div>
+              <div class="flex justify-end">
+                <button
+                  class="btn mr-2"
+                  @click="
+                    () => {
+                      emits('close')
+                      resetForm({
+                        values: {
+                          newpassword: '',
+                          newpassword2: '',
+                        },
+                      })
+                    }
+                  "
+                >
+                  Cancelar
+                </button>
+                <button class="btn btn-primary" :disabled="isLoading">
+                  Cambiar
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </dialog>
+  </div>
+  <div
+    v-if="open"
+    class="modal-backdrop fixed top-0 left-0 z-0 bg-black opacity-30 w-screen h-screen"
+  ></div>
+</template>
+
+<script setup lang="ts">
+import CustomInput from '@/modules/common/components/CustomInput.vue'
+import { useForm } from 'vee-validate'
+import * as yup from 'yup'
+import { ref } from 'vue'
+import { useToast } from 'vue-toastification'
+import { changePasswordEmployeeAction } from '../actions/change-password-employee.action'
+
+const toast = useToast()
+const isLoading = ref(false)
+
+interface Props {
+  open: boolean
+  employee: object
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  open: false,
+})
+
+const emits = defineEmits<{
+  close: [void]
+}>()
+
+const validationSchema = yup.object({
+  newpassword: yup.string().required().min(4),
+  newpassword2: yup.string().required().min(4),
+})
+
+const { defineField, errors, handleSubmit, resetForm } = useForm({
+  validationSchema,
+})
+
+const [newpassword, newpasswordAttrs] = defineField('newpassword')
+const [newpassword2, newpassword2Attrs] = defineField('newpassword2')
+
+const onSubmit = handleSubmit(async values => {
+  if (values.newpassword !== values.newpassword2) {
+    toast.error('Las contraseñas no coinciden', {
+      timeout: 2000,
+    })
+    return
+  }
+  isLoading.value = true
+  const response = await changePasswordEmployeeAction(
+    props.employee.id,
+    values.newpassword,
+  )
+  setTimeout(() => {}, 1000)
+  isLoading.value = false
+
+  if (response != 201) {
+    toast.error('Error de actualización', {
+      timeout: 2000,
+    })
+    return
+  }
+  toast.success('Contraseña actualizada correctamente', {
+    timeout: 2000,
+  })
+  emits('close')
+  resetForm({
+    values: {
+      newpassword: '',
+      newpassword2: '',
+    },
+  })
+})
+</script>

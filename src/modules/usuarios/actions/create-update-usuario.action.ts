@@ -24,11 +24,11 @@ const updateUsuarioAction = async (
   delete usuario.username
   delete usuario.password
   // delete usuario.status
-  usuario.employee = authStore.user?.user_id
+  usuario.employee = authStore.user?.employee_id
   try {
     const { data } = await api.put<Usuario>(`/usuario/${usuarioId}/`, usuario)
 
-    console.log(data)
+    // console.log(data)
     return data
   } catch (error) {
     console.log(error)
@@ -46,12 +46,12 @@ const createUsuarioAction = async (usuario: Partial<Usuario>) => {
   delete usuario.status
   usuario.username = usuario.ci
   usuario.password = usuario.ci
-  usuario.employee = authStore.user?.user_id
+  usuario.employee = authStore.user?.employee_id
 
   try {
     const { data } = await api.post<Usuario>(`/usuario/`, usuario)
 
-    console.log(data)
+    // console.log(data)
     return data
   } catch (error) {
     console.log(error)

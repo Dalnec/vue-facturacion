@@ -63,7 +63,8 @@ const props = defineProps<{
 }>()
 
 const chartOptions = props.chartOptions || {
-  //   responsive: true,
+  responsive: true,
+  maintainAspectRatio: false,
   plugins: {
     mydoughnut: false,
     legend: {

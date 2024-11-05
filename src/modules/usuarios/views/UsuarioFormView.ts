@@ -91,9 +91,12 @@ export default defineComponent({
     watch(isUpdateSuccess, value => {
       if (!value) return
 
-      toast.success('Producto actualizado correctamente', {
-        timeout: 2000,
-      })
+      toast.success(
+        `Usuario ${values.id ? 'actualizado' : 'Creado'} correctamente`,
+        {
+          timeout: 2000,
+        },
+      )
       router.replace(`/usuarios/form/${updatedUsuario.value!.id}`)
 
       resetForm({

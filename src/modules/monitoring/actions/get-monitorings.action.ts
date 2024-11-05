@@ -27,7 +27,6 @@ export const getMonitoringsAction = async (
 }
 
 export const getMonitoringsNoPageAction = async (params?: FilterParams) => {
-  console.log({ nopage: params })
   try {
     const { data } = await api.get<Monitoring[]>(
       `/monitoring/get_monitorings/`,
@@ -36,7 +35,6 @@ export const getMonitoringsNoPageAction = async (params?: FilterParams) => {
       },
     )
 
-    // console.log({ nopage: data })
     return data
   } catch (error) {
     console.log(error)

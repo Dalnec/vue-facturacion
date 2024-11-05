@@ -17,6 +17,11 @@ export const useAuthStore = defineStore('auth', () => {
         return false
       }
       user.value = data.user
+      console.log('USER', user.value)
+      if (user.value?.profile_description !== 'ADMINISTRADOR') {
+        logout()
+        return false
+      }
       token.value = data.token
       authStatus.value = AuthStatus.AUTHENTICATED
       return true
@@ -28,6 +33,9 @@ export const useAuthStore = defineStore('auth', () => {
 
   const logout = () => {
     localStorage.removeItem('token')
+    localStorage.removeItem('invoice')
+    localStorage.removeItem('purchase')
+    localStorage.removeItem('treatUsuario')
     authStatus.value = AuthStatus.UNAUTHENTICATED
     user.value = undefined
     token.value = ''

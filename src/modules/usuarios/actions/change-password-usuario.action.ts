@@ -9,7 +9,7 @@ export const changePasswordUsuarioAction = async (
       password,
     })
 
-    // console.log(status)
+    console.log(status)
     return status
   } catch (error) {
     console.log(error)

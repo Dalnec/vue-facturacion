@@ -9,7 +9,7 @@ export const updateInvoiceAction = async (
 ) => {
   delete invoice.id
   // delete usuario.status
-  // invoice.employee = authStore.user?.user_id
+  // invoice.employee = authStore.user?.employee_id
   try {
     const { data } = await api.put<Invoice>(`/invoice/${invoiceId}/`, invoice)
 

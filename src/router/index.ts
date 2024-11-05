@@ -49,6 +49,32 @@ const router = createRouter({
           component: () =>
             import('@/modules/monitoring/views/MonitoringView.vue'),
         },
+        {
+          path: '/purchases',
+          name: 'purchases',
+          beforeEnter: [isAuthenticatedGuard],
+          component: () => import('@/modules/purchase/views/PurchaseView.vue'),
+        },
+        {
+          path: '/distric',
+          name: 'distric',
+          beforeEnter: [isAuthenticatedGuard],
+          component: () => import('@/modules/distric/views/DistricView.vue'),
+        },
+        {
+          path: '/employee',
+          name: 'employee',
+          beforeEnter: [isAuthenticatedGuard],
+          component: () => import('@/modules/employee/views/EmployeeView.vue'),
+        },
+        {
+          path: '/employee/form/:employeeId',
+          name: 'employee-form',
+          beforeEnter: [isAuthenticatedGuard],
+          props: true,
+          component: () =>
+            import('@/modules/employee/views/EmployeeFormView.vue'),
+        },
       ],
     },
     authRoutes,

@@ -1,8 +1,8 @@
 <template>
-  <aside class="bg-base-200 w-55 min-h-screen shadow-inner">
+  <aside class="bg-base-200 w-50 min-h-screen shadow-inner">
     <!-- <h2 class="text-lg font-bold mx-4">Menu Opciones</h2> -->
 
-    <ul class="menu menu-lg text-info-content bg-base-200 rounded-box w-56">
+    <ul class="menu menu-lg text-info-content bg-base-200 rounded-box w-48">
       <li>
         <RouterLink to="/usuarios">
           <UsersMenu />
@@ -16,22 +16,22 @@
         </RouterLink>
       </li>
       <li>
-        <a>
+        <RouterLink to="/purchases">
           <TarifaIcon />
           Tarifas
-        </a>
+        </RouterLink>
       </li>
       <li>
-        <a>
+        <RouterLink to="/distric">
           <HouseMenu />
-          Barrio
-        </a>
+          Barrio/OTB
+        </RouterLink>
       </li>
       <li>
-        <a>
+        <RouterLink to="/employee">
           <EmployeeIcon />
           Empleado
-        </a>
+        </RouterLink>
       </li>
     </ul>
   </aside>

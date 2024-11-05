@@ -1,4 +1,10 @@
 <template>
+  <SettingsModal
+    :open="openSettingsModal"
+    @close="openSettingsModal = false"
+    title="Ajustar Intervalo de Tiempo"
+    subtitle="Establecer tiempo de envio de datos al servidor"
+  />
   <div class="card glass w-full m-3">
     <div class="card-body px-6 pt-6 pb-0">
       <div class="flex justify-between items-center">
@@ -21,6 +27,7 @@
                   v-model="dateFilters.read_date_range_after"
                   @change="
                     () => {
+                      $router.replace(`/monitoring/?page=1`)
                       filterParams.read_date_range_after = `${dateFilters.read_date_range_after} 00:00:00`
                     }
                   "
@@ -36,6 +43,7 @@
                   v-model="dateFilters.read_date_range_before"
                   @change="
                     () => {
+                      $router.replace(`/monitoring/?page=1`)
                       filterParams.read_date_range_before = `${dateFilters.read_date_range_before} 23:59:59`
                     }
                   "
@@ -44,23 +52,32 @@
             </div>
             <div class="col-span-1">
               <button
-                class="btn btn-primary btn-circle"
+                class="btn btn-primary btn-circle mr-1"
                 @click="
                   () => {
-                    dateFilters.read_date_range_after = `${new Date().toISOString().split('T')[0]}`
-                    dateFilters.read_date_range_before = `${new Date().toISOString().split('T')[0]}`
-                    filterParams.read_date_range_after = `${new Date().toISOString().split('T')[0]} 00:00:00`
-                    filterParams.read_date_range_before = `${new Date().toISOString().split('T')[0]} 23:59:59`
+                    dateFilters.read_date_range_after = `${formatedDate()}`
+                    dateFilters.read_date_range_before = `${formatedDate()}`
+                    filterParams.read_date_range_after = `${formatedDate()} 00:00:00`
+                    filterParams.read_date_range_before = `${formatedDate()} 23:59:59`
                   }
                 "
               >
                 <ReloadIcon />
               </button>
+              <button
+                class="btn btn-primary btn-circle"
+                @click="
+                  () => {
+                    openSettingsModal = true
+                  }
+                "
+              >
+                <SettingsIcon />
+              </button>
             </div>
           </div>
         </div>
       </div>
-
       <div class="grid grid-cols-1 md:grid-cols-7 gap-4">
         <!-- cards -->
         <div class="col-span-3">
@@ -107,12 +124,41 @@
                   <DisconnectedIcon v-else class="w-7 h-7" />
                   <div class="flex flex-col">
                     <span class="font-bold">Estado Dispositivo</span>
-                    <span>{{
-                      lastMonitoring?.isConnected ? 'Conectado' : 'Desconectado'
-                    }}</span>
+                    <span
+                      :class="[
+                        'font-bold',
+                        lastMonitoring?.isConnected
+                          ? 'text-success'
+                          : 'text-error',
+                      ]"
+                      >{{
+                        lastMonitoring?.isConnected
+                          ? 'Conectado'
+                          : 'Desconectado'
+                      }}</span
+                    >
                   </div>
                 </div>
-                <div class="flex items-center gap-2">
+                <div
+                  v-if="!lastMonitoring?.isConnected"
+                  class="flex items-center gap-2"
+                >
+                  <UnknownBatteryIcon class="w-8 h-8" />
+                  <div class="flex flex-col">
+                    <span class="font-bold">Nivel de Bateria</span>
+                    <span
+                      :class="[
+                        'font-bold',
+                        lastMonitoring?.isConnected
+                          ? 'text-success'
+                          : 'text-error',
+                      ]"
+                    >
+                      - %
+                    </span>
+                  </div>
+                </div>
+                <div v-else class="flex items-center gap-2">
                   <FullBatteryIcon
                     v-if="
                       parseInt(lastMonitoring?.battery ?? '0') == 100 ||
@@ -205,9 +251,13 @@
                       {{ (page - 1) * pageSize + index + 1 }}
                     </th>
                     <td class="text-center p-1">{{ monitoring.read_date }}</td>
-                    <td class="text-center p-1">{{ monitoring.measured }}</td>
-                    <td class="text-center p-1">{{ monitoring.percentage }}</td>
-                    <td class="text-center p-1">{{ monitoring.battery }}</td>
+                    <td class="text-center p-1">
+                      {{ monitoring.measured }} cm
+                    </td>
+                    <td class="text-center p-1">
+                      {{ monitoring.percentage }} %
+                    </td>
+                    <td class="text-center p-1">{{ monitoring.battery }} %</td>
                   </tr>
                 </tbody>
               </table>
@@ -247,6 +297,9 @@ import SeventyFiveBatteryIcon from '@/modules/common/icons/SeventyFiveBatteryIco
 import FiftyBatteryIcon from '@/modules/common/icons/FiftyBatteryIcon.vue'
 import TwentyFiveBatteryIcon from '@/modules/common/icons/TwentyFiveBatteryIcon.vue'
 import EmptyBatteryIcon from '@/modules/common/icons/EmptyBatteryIcon.vue'
+import SettingsIcon from '@/modules/common/icons/SettingsIcon.vue'
+import SettingsModal from '../components/SettingsModal.vue'
+import UnknownBatteryIcon from '@/modules/common/icons/UnknownBatteryIcon.vue'
 
 const route = useRoute()
 const queryClient = useQueryClient()
@@ -254,16 +307,31 @@ const queryClient = useQueryClient()
 const page = ref(route.query.page ? Number(route.query.page) : 1)
 const pageSize = ref(20)
 
+const openSettingsModal = ref(false)
+const formatedDate = () => {
+  const date = new Date()
+
+  const year = date.getFullYear()
+  const month = ('0' + (date.getMonth() + 1)).slice(-2)
+  const day = ('0' + date.getDate()).slice(-2)
+
+  return `${year}-${month}-${day}`
+}
+
 const dateFilters = reactive({
-  read_date_range_after: `${new Date().toISOString().split('T')[0]}`,
-  read_date_range_before: `${new Date().toISOString().split('T')[0]}`,
+  read_date_range_after: `${formatedDate()}`,
+  read_date_range_before: `${formatedDate()}`,
 })
 const filterParams = reactive({
-  read_date_range_after: `${new Date().toISOString().split('T')[0]} 00:00:00`,
-  read_date_range_before: `${new Date().toISOString().split('T')[0]} 23:59:59`,
+  read_date_range_after: `${formatedDate()} 00:00:00`,
+  read_date_range_before: `${formatedDate()} 23:59:59`,
 })
 
-const { data: monitorings, isLoading } = useQuery({
+const {
+  data: monitorings,
+  isLoading,
+  refetch: monitoringsRefetch,
+} = useQuery({
   queryKey: [
     'monitorings',
     {
@@ -278,8 +346,6 @@ const { data: monitorings, isLoading } = useQuery({
 watch(
   () => route.query.page,
   newPage => {
-    console.log(newPage)
-
     page.value = Number(newPage || 1)
   },
 )
@@ -292,7 +358,11 @@ watchEffect(() => {
   })
 })
 
-const { data: chartMonitorings, isLoading: chartLoading } = useQuery({
+const {
+  data: chartMonitorings,
+  isLoading: chartLoading,
+  refetch: chartRefetch,
+} = useQuery({
   queryKey: [
     'chart-monitorings',
     {
@@ -339,5 +409,11 @@ const dataDoughnut = computed(() => {
       },
     ],
   }
+})
+
+watch(lastMonitoring, newLastMonitoring => {
+  console.log(newLastMonitoring)
+  chartRefetch()
+  monitoringsRefetch()
 })
 </script>
