@@ -18,6 +18,7 @@
           >
             <div class="rounded-xl col-span-3">
               <label class="input input-bordered flex items-center gap-2">
+                Desde:
                 <input
                   type="date"
                   class="grow"
@@ -34,6 +35,7 @@
             </div>
             <div class="rounded-xl col-span-3">
               <label class="input input-bordered flex items-center gap-2">
+                Hasta:
                 <input
                   type="date"
                   class="grow"

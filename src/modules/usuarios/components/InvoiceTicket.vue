@@ -28,12 +28,16 @@
       <tbody>
         <tr>
           <td>
-            {{ ticket.body.previous_month }}<br />{{
-              ticket.body.previous_reading
-            }}
+            {{ ticket.body.previous_month }}<br />
+            <span style="font-weight: bold">
+              {{ ticket.body.previous_reading }}
+            </span>
           </td>
           <td>
-            {{ ticket.body.actual_month }}<br />{{ ticket.body.actual_reading }}
+            {{ ticket.body.actual_month }}<br />
+            <span style="font-weight: bold">
+              {{ ticket.body.actual_reading }}
+            </span>
           </td>
           <td>
             <span class="bold">{{ ticket.body.consumed }}</span>
@@ -42,20 +46,37 @@
       </tbody>
     </table>
 
-    <div class="">
+    <div>
       <p class="subtitle">Concepto(s)</p>
-      <p class="conceptDetails">
-        <span>Servicio de Agua:</span> <span>{{ ticket.body.total }}</span>
-      </p>
+      <div style="padding: 0; margin: 0">
+        <table class="details">
+          <tbody>
+            <tr>
+              <td style="width: 160px">Servicio de Agua</td>
+              <td style="width: 50px">0.5</td>
+              <td>
+                <span class="bold">{{ ticket.body.total }}</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
 
     <div class="total">
-      <span class="bold">TOTAL A PAGAR:</span>
+      <span class="bold">TOTAL A PAGAR</span>
       <span class="bold">{{ ticket.body.total }}</span>
     </div>
   </div>
+  <button
+    :disabled="copied"
+    @click="copyLinkToClipboard()"
+    class="btn btn-primary mt-2"
+  >
+    Copiar Enlace
+  </button>
   <button @click="exportToPDF" class="btn btn-primary mt-2">
-    Exportar a PDF
+    Descargar PDF
   </button>
   <button
     @click="invoiceStore.openPaymentModal = true"
@@ -76,17 +97,19 @@ import type { Ticket } from '../interfaces/ticket.interface'
 interface Props {
   ticket: Ticket
   status: string
+  uuid: string
 }
 
-defineProps<Props>()
+const props = defineProps<Props>()
 
+const copied = ref(false)
 const invoiceStore = useInvoiceStore()
 const pdfContent = ref<HTMLDivElement | null>(null)
 
 const exportToPDF = async () => {
   const doc = new jsPDF({
     unit: 'mm',
-    format: [80, 100],
+    format: [80, 105],
     orientation: 'portrait',
   })
 
@@ -105,9 +128,26 @@ const exportToPDF = async () => {
     doc.addImage(imgData, 'JPEG', 1, position, imgWidth, imgHeight)
 
     // Guarda el PDF
-    doc.save('recibo.pdf')
+    doc.save(
+      `Recibo_${props.ticket.body.actual_month}_${props.ticket.header.full_name}.pdf`,
+    )
   } catch (error) {
     console.error('Error al generar el PDF:', error)
+  }
+}
+
+const copyLinkToClipboard = async () => {
+  try {
+    const backlink = import.meta.env.VITE_API_URL
+    const link = `${backlink}/ticket/${props.uuid}/`
+    await navigator.clipboard.writeText(link)
+    copied.value = true
+
+    setTimeout(() => {
+      copied.value = false
+    }, 1000) // Mensaje temporal de confirmación (2 segundos)
+  } catch (error) {
+    console.error('Error al copiar el enlace:', error)
   }
 }
 </script>
@@ -120,7 +160,7 @@ const exportToPDF = async () => {
 .body {
   font-family: Arial, sans-serif;
   max-width: 500px;
-  padding: 10px;
+  padding: 5px 10px;
 }
 
 h1 {
@@ -129,9 +169,10 @@ h1 {
 }
 
 .header {
+  font-weight: bold;
   text-align: center;
-  margin-top: 20px;
-  margin-bottom: 10px;
+  margin-top: 10px;
+  margin-bottom: 5px;
 }
 
 .info {
@@ -172,12 +213,6 @@ h1 {
 .details td {
   text-align: center;
   padding: 0px;
-}
-
-.conceptDetails {
-  display: flex;
-  justify-content: space-evenly;
-  margin-bottom: 5px;
 }
 
 .total {

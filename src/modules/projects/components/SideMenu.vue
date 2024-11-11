@@ -33,10 +33,17 @@
           Empleado
         </RouterLink>
       </li>
+      <li>
+        <RouterLink to="/reports">
+          <DocumentIcon />
+          Reportes
+        </RouterLink>
+      </li>
     </ul>
   </aside>
 </template>
 <script setup lang="ts">
+import DocumentIcon from '@/modules/common/icons/DocumentIcon.vue'
 import EmployeeIcon from '@/modules/common/icons/EmployeeIcon.vue'
 import HouseMenu from '@/modules/common/icons/HouseMenu.vue'
 import MonitoringIcon from '@/modules/common/icons/MonitoringIcon.vue'

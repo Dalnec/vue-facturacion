@@ -75,6 +75,12 @@ const router = createRouter({
           component: () =>
             import('@/modules/employee/views/EmployeeFormView.vue'),
         },
+        {
+          path: '/reports',
+          name: 'reports',
+          beforeEnter: [isAuthenticatedGuard],
+          component: () => import('@/modules/reports/views/ReportsView.vue'),
+        },
       ],
     },
     authRoutes,

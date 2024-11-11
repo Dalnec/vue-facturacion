@@ -24,4 +24,6 @@ export interface Usuario {
   employee: number
   username?: string
   password?: string
+  code?: string
+  last_measured?: number
 }

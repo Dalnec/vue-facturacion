@@ -27,14 +27,16 @@
         </RouterLink>
         <div>
           <h2 class="card-title text-primary font-bold">Usuarios</h2>
-          <p>{{ values.id ? 'Edición' : 'Creación' }} de Usuario</p>
+          <p>
+            Formulario de {{ values.id ? 'Edición' : 'Creación' }} de Usuario
+          </p>
         </div>
         <!-- Boton de accion -->
       </div>
 
       <div class="flex justify-center w-full items-center">
         <div class="card bg-base-100 shadow-xl w-[60%]">
-          <div class="card-body bg-white p-0 rounded-lg">
+          <div class="card-body bg-white p-0 rounded-lg w-full">
             <form
               class="grid grid-cols-1 px-5 gap-4 py-4 w-full"
               @submit.prevent="onSubmit()"
@@ -57,81 +59,79 @@
                     :error="errors.address"
                   />
                 </div>
-
                 <div class="mb-4">
-                  <label for="ci" class="form-label">Carnet de Identidad</label>
+                  <label for="address" class="form-label">Código Medidor</label>
                   <CustomInput
-                    v-model.number="ci"
-                    v-bind="ciAttrs"
-                    :error="errors.ci"
+                    v-model="code"
+                    v-bind="codeAttrs"
+                    :error="errors.code"
+                  />
+                </div>
+                <div class="mb-4">
+                  <label for="address" class="form-label">Última Lectura</label>
+                  <CustomInput
+                    v-model.number="last_measured"
+                    v-bind="last_measuredAttrs"
+                    :error="errors.last_measured"
                   />
                 </div>
 
-                <div class="mb-4">
-                  <label for="names" class="form-label">Nombre</label>
-                  <!-- <input
-          v-model="name"
-          v-bind="nameAttrs"
-          type="text"
-          id="name"
-          :class="['form-control', { 'border-error': errors.name }]"
-        />
-        <span class="text-red-500" v-if="errors.name">{{ errors.name }}</span> -->
-                  <CustomInput
-                    v-model="names"
-                    v-bind="namesAttrs"
-                    :error="errors.names"
-                  />
+                <div class="card bg-gray-100 shadow-xl">
+                  <div class="card-body py-3">
+                    <h2 class="card-title">Representante:</h2>
+
+                    <div class="mb-4">
+                      <label for="ci" class="form-label"
+                        >Carnet de Identidad</label
+                      >
+                      <CustomInput
+                        v-model.number="ci"
+                        v-bind="ciAttrs"
+                        :error="errors.ci"
+                      />
+                    </div>
+
+                    <div class="mb-4">
+                      <label for="names" class="form-label">Nombre</label>
+                      <CustomInput
+                        v-model="names"
+                        v-bind="namesAttrs"
+                        :error="errors.names"
+                      />
+                    </div>
+
+                    <div class="mb-4">
+                      <label for="lastnames" class="form-label"
+                        >Apellidos</label
+                      >
+                      <CustomInput
+                        v-model="lastnames"
+                        v-bind="lastnamesAttrs"
+                        :error="errors.lastnames"
+                      />
+                    </div>
+
+                    <div class="mb-4">
+                      <label for="phone" class="form-label">Celular</label>
+                      <CustomInput
+                        v-model.number="phone"
+                        v-bind="phoneAttrs"
+                        :error="errors.phone"
+                      />
+                    </div>
+
+                    <div class="mb-4">
+                      <label for="email" class="form-label"
+                        >Correo Electronico</label
+                      >
+                      <CustomInput
+                        v-model="email"
+                        v-bind="emailAttrs"
+                        :error="errors.email"
+                      />
+                    </div>
+                  </div>
                 </div>
-
-                <div class="mb-4">
-                  <label for="lastnames" class="form-label">Apellidos</label>
-                  <CustomInput
-                    v-model="lastnames"
-                    v-bind="lastnamesAttrs"
-                    :error="errors.lastnames"
-                  />
-                </div>
-
-                <div class="mb-4">
-                  <label for="phone" class="form-label">Celular</label>
-                  <CustomInput
-                    v-model.number="phone"
-                    v-bind="phoneAttrs"
-                    :error="errors.phone"
-                  />
-                </div>
-
-                <div class="mb-4">
-                  <label for="email" class="form-label"
-                    >Correo Electronico</label
-                  >
-                  <CustomInput
-                    v-model="email"
-                    v-bind="emailAttrs"
-                    :error="errors.email"
-                  />
-                </div>
-
-                <!-- <div class="flex flex-row gap-3">
-        <div class="mb-4">
-          <label for="price" class="form-label">Precio</label>
-          <input type="number" id="price" class="form-control" />
-        </div>
-
-        <div class="mb-4">
-          <label for="stock" class="form-label">Inventario</label>
-          <input type="number" id="stock" class="form-control" />
-        </div>
-      </div> -->
-                <!-- <div class="mb-4">
-        <label for="stock" class="form-label">Género</label>
-        <select class="form-control">
-          <option value="">Seleccione</option>
-          <option value="2">COBRADOR</option>
-          <option value="1">ADMINISTRADOR</option>
-        </select>
-      </div> -->
               </div>
               <button
                 :disabled="isPending"
@@ -144,18 +144,6 @@
           </div>
         </div>
       </div>
-
-      <!-- <div class="grid grid-cols-2">
-        <pre class="bg-blue-200 p-2">
-          {{ values }}
-        </pre>
-        <pre class="bg-red-200 p-2">
-          {{ errors }}
-        </pre>
-        <pre class="bg-green-200 p-2 col-span-2">
-          {{ JSON.stringify(meta, null, 2) }}
-        </pre>
-      </div> -->
     </div>
   </div>
 </template>

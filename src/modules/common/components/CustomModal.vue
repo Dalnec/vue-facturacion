@@ -1,7 +1,10 @@
 <template>
   <dialog class="modal" :open="open">
     <div class="modal-box">
-      <button class="btn btn-sm btn-circle btn-ghost absolute right-3 top-3">
+      <button
+        class="btn btn-sm btn-circle btn-ghost absolute right-3 top-3"
+        @click="emit('close')"
+      >
         ✕
       </button>
       <div class="border-b border-gray-300">
@@ -19,7 +22,7 @@
   </dialog>
   <div
     v-if="open"
-    class="modal-backdrop fixed top-0 left-0 z-0 bg-black opacity-20 w-screen h-screen"
+    class="modal-backdrop fixed top-0 left-0 z-0 bg-black opacity-30 w-screen h-screen"
   ></div>
 </template>
 
@@ -33,9 +36,9 @@ withDefaults(defineProps<Props>(), {
   title: undefined,
 })
 
-// const emits = defineEmits<{
-//   close: [void]
-// }>()
+const emit = defineEmits<{
+  close: [void]
+}>()
 </script>
 
 <style scoped></style>

@@ -52,6 +52,8 @@ export default defineComponent({
     const [lastnames, lastnamesAttrs] = defineField('lastnames')
     const [phone, phoneAttrs] = defineField('phone')
     const [email, emailAttrs] = defineField('email')
+    const [code, codeAttrs] = defineField('code')
+    const [last_measured, last_measuredAttrs] = defineField('last_measured')
 
     const {
       mutate,
@@ -133,6 +135,10 @@ export default defineComponent({
       lastnamesAttrs,
       phoneAttrs,
       emailAttrs,
+      code,
+      codeAttrs,
+      last_measured,
+      last_measuredAttrs,
 
       onSubmit,
       isPending,

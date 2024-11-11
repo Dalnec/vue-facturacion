@@ -7,6 +7,7 @@ export interface InvoiceResponse {
 
 export interface Invoice {
   id?: number
+  uuid?: string
   period: string
   ticket: string
   created?: Date
@@ -17,8 +18,10 @@ export interface Invoice {
   total: string
   status: string
   observations: null | string
-  employee: number
   usuario: number
+  employee: number
+  employeeName?: string
+  previosMeasured?: string
 }
 
 export class Convert {

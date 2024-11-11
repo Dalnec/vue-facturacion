@@ -1,4 +1,46 @@
 <template>
+  <CustomModal
+    :open="openEditMeasured"
+    @close="() => (openEditMeasured = false)"
+  >
+    <template #header>
+      <h3 class="text-lg font-bold">Editar Lectura</h3>
+    </template>
+    <template #body>
+      <input
+        type="text"
+        :placeholder="'Ingresar valor'"
+        class="input input-bordered input-primary w-full flex-1"
+        v-model.number="editValues.measured"
+      />
+    </template>
+    <template #actions>
+      <div class="flex justify-end">
+        <button
+          class="btn mr-4"
+          @click="
+            () => {
+              openEditMeasured = false
+            }
+          "
+        >
+          Cerrar
+        </button>
+        <button
+          class="btn btn-primary"
+          @click="
+            async () => {
+              await updateInvoice(editValues)
+            }
+          "
+          :disabled="loadingEditMeasured"
+        >
+          Aceptar
+        </button>
+      </div>
+    </template>
+  </CustomModal>
+
   <ConfirmModal
     ref="openConfirmModalRef"
     :open="invoiceStore.openPaymentModal"
@@ -61,27 +103,19 @@
               <p>Generacion de recibos y cobros</p>
             </div>
           </div>
-          <div>
-            <!-- <RouterLink
-              to="/usuarios/form/create"
-              class="btn btn-primary btn-md"
-              :disabled="!usuarioStore.selectedUsuario.makeInvoice"
-            >
-              <TicketInvoiceIcon />
-              Nuevo
-            </RouterLink> -->
-          </div>
         </div>
         <div>
           <table class="table">
             <!-- head -->
             <thead>
               <tr class="text-sm">
-                <th class="text-center p-1 w-[10%]"></th>
+                <th class="text-center p-1 w-[5%]"></th>
                 <th class="text-center p-1 w-[10%]">Periodo</th>
                 <th class="text-center p-1 w-[10%]">Lectura</th>
                 <th class="text-center p-1 w-[10%]">Total</th>
                 <th class="text-center p-1 w-[10%]">Estado</th>
+                <th class="text-center p-1 w-[10%]">Fecha Modificacion</th>
+                <th class="text-center p-1 w-[10%]">Encargado</th>
                 <th class="text-center p-1 w-[10%]">Acciones</th>
               </tr>
             </thead>
@@ -104,7 +138,21 @@
                     {{ invoice.status === 'P' ? 'PAGADO' : 'DEUDA' }}
                   </div>
                 </td>
-                <td class="text-center p-1">
+                <td class="text-center p-1">{{ invoice.modified }}</td>
+                <td class="text-center p-1">{{ invoice.employeeName }}</td>
+                <td class="flex justify-center text-center p-1">
+                  <button
+                    v-if="invoice.status !== 'P'"
+                    class="btn btn-warning btn-outline btn-xs mr-4"
+                    @click="
+                      () => {
+                        editValues = { ...invoice }
+                        openEditMeasured = true
+                      }
+                    "
+                  >
+                    Editar
+                  </button>
                   <input
                     id="my-drawer-4"
                     type="checkbox"
@@ -121,6 +169,7 @@
                           drawerValues.id = invoice.id ?? 0
                           drawerValues.status = invoice.status
                           drawerValues.ticket = invoice.ticket
+                          drawerValues.uuid = invoice.uuid ?? ''
                         }
                       "
                       >Ver Recibo</label
@@ -139,6 +188,7 @@
                         <InvoiceTicket
                           :ticket="JSON.parse(drawerValues.ticket)"
                           :status="drawerValues.status"
+                          :uuid="drawerValues.uuid"
                         />
                       </div>
                     </div>
@@ -170,8 +220,13 @@ import ButtonPagination from '@/modules/common/components/ButtonPagination.vue'
 import InvoiceTicket from '../components/InvoiceTicket.vue'
 import ConfirmModal from '@/modules/common/components/ConfirmModal.vue'
 import { useInvoiceStore } from '../store/invoice.store'
-import { updateStatusInvoiceAction } from '../actions/update-invoice.action'
+import {
+  updateInvoiceAction,
+  updateStatusInvoiceAction,
+} from '../actions/update-invoice.action'
 import { useToast } from 'vue-toastification'
+import CustomModal from '@/modules/common/components/CustomModal.vue'
+import type { Invoice } from '../interfaces/invoice.interface'
 
 const route = useRoute()
 const usuarioStore = useUsuarioStore()
@@ -182,15 +237,31 @@ const drawerValues = ref({
   id: 0,
   ticket: '',
   status: '',
+  uuid: '',
+})
+
+const editValues = ref<Invoice>({
+  period: '',
+  ticket: '',
+  read_date: new Date(),
+  measured: '',
+  price: '',
+  total: '',
+  status: '',
+  employee: 0,
+  usuario: 0,
+  observations: null,
 })
 const openDrawer = ref(false)
+const openEditMeasured = ref(false)
+const loadingEditMeasured = ref(false)
 const openDrawerChange = () => {
   openDrawer.value = !openDrawer.value
   window.scrollTo({ top: 0, behavior: 'smooth' })
 }
 
 interface Props {
-  usuarioId: number
+  usuarioId: string
 }
 
 const props = defineProps<Props>()
@@ -272,6 +343,26 @@ const paymentInvoice = async (invoiceId: number) => {
   toast.success('Recibo cobrado correctamente', {
     timeout: 2000,
   })
+  refetch()
+}
+
+const updateInvoice = async (invoice: Invoice) => {
+  loadingEditMeasured.value = true
+  invoice.total = `${parseFloat(invoice.measured) - parseFloat(invoice.previosMeasured ?? '0') * parseFloat(invoice.price)}`
+  const { status } = await updateInvoiceAction(invoice.id ?? 0, invoice)
+
+  if (status !== 200) {
+    toast.error('Error de actualizacion', {
+      timeout: 2000,
+    })
+    loadingEditMeasured.value = false
+    return
+  }
+  toast.success('Lectura acutalizada correctamente', {
+    timeout: 2000,
+  })
+  loadingEditMeasured.value = false
+  openEditMeasured.value = false
   refetch()
 }
 </script>

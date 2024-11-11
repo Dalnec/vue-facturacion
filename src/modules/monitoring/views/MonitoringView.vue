@@ -20,6 +20,7 @@
           >
             <div class="rounded-xl col-span-2">
               <label class="input input-bordered flex items-center gap-2">
+                Desde:
                 <input
                   type="date"
                   class="grow"
@@ -36,6 +37,7 @@
             </div>
             <div class="rounded-xl col-span-2">
               <label class="input input-bordered flex items-center gap-2">
+                Hasta:
                 <input
                   type="date"
                   class="grow"
@@ -379,8 +381,8 @@ const { data: lastMonitoring, isLoading: lastLoading } = useQuery({
 })
 
 const data = computed(() => {
-  const labels = []
-  const data_values = []
+  const labels: string[] = []
+  const data_values: string[] = []
 
   chartMonitorings.value?.forEach((v, i) => {
     labels.push(`${i + 1}`)
@@ -403,7 +405,7 @@ const dataDoughnut = computed(() => {
       {
         data: [
           lastMonitoring.value?.percentage,
-          100 - +lastMonitoring.value?.percentage,
+          100 - +lastMonitoring.value!.percentage,
         ],
         backgroundColor: ['#3ba0ff', '#e0e0e0'],
       },

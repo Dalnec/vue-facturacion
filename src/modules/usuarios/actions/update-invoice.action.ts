@@ -1,20 +1,22 @@
 import { api } from '@/api/api'
-// import { useAuthStore } from "@/modules/auth/stores/auth.store"
+import { useAuthStore } from '@/modules/auth/stores/auth.store'
 import type { Invoice } from '../interfaces/invoice.interface'
 
-// const authStore = useAuthStore()
+const authStore = useAuthStore()
 export const updateInvoiceAction = async (
   invoiceId: number,
   invoice: Partial<Invoice>,
 ) => {
   delete invoice.id
-  // delete usuario.status
-  // invoice.employee = authStore.user?.employee_id
+  invoice.employee = authStore.user?.employee_id
   try {
-    const { data } = await api.put<Invoice>(`/invoice/${invoiceId}/`, invoice)
+    const { data, status } = await api.put<Invoice>(
+      `/invoice/${invoiceId}/`,
+      invoice,
+    )
 
-    console.log(data)
-    return data
+    console.log({ data, status })
+    return { data, status }
   } catch (error) {
     console.log(error)
     throw new Error('Error Updating Invoice')
