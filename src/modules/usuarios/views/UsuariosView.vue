@@ -3,6 +3,15 @@
     :open="usuarioStore.openPasswordModal"
     @close="() => (usuarioStore.openPasswordModal = false)"
   />
+  <UsuarioRestartMeasured
+    :open="usuarioStore.openRestartModal"
+    @close="() => (usuarioStore.openRestartModal = false)"
+    @reload="
+      () => {
+        refetch()
+      }
+    "
+  />
 
   <div class="card glass w-full m-3">
     <div class="card-body px-6 pt-6 pb-0">
@@ -111,6 +120,7 @@ import ButtonPagination from '@/modules/common/components/ButtonPagination.vue'
 import UsuariosDataTable from '../components/UsuariosDataTable.vue'
 import UsuarioChangePasswordModal from '../components/UsuarioChangePasswordModal.vue'
 import { useUsuarioStore } from '../store/usuario.store'
+import UsuarioRestartMeasured from '../components/UsuarioRestartMeasured.vue'
 
 const route = useRoute()
 const usuarioStore = useUsuarioStore()
@@ -125,7 +135,11 @@ const filterParams = ref({
   makeInvoice: null,
 })
 
-const { data: usuarios, isLoading } = useQuery({
+const {
+  data: usuarios,
+  isLoading,
+  refetch,
+} = useQuery({
   queryKey: ['usuarios', { page: page, page_size: pageSize, filterParams }],
   queryFn: () =>
     getUsuariosAction(page.value, pageSize.value, filterParams.value),

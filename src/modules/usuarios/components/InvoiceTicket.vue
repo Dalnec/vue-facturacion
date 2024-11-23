@@ -50,12 +50,29 @@
       <p class="subtitle">Concepto(s)</p>
       <div style="padding: 0; margin: 0">
         <table class="details">
-          <tbody>
+          <tbody style="font-size: 12px">
             <tr>
               <td style="width: 160px">Servicio de Agua</td>
-              <td style="width: 50px">0.5</td>
-              <td>
-                <span class="bold">{{ ticket.body.total }}</span>
+              <td style="text-align: center; width: 40px">
+                {{ ticket.body.consumed }}
+              </td>
+              <td style="text-align: center; width: 40px">
+                {{ ticket.body.price }}
+              </td>
+              <td style="text-align: center; font-weight: bold">
+                {{ ticket.body.total }}
+              </td>
+            </tr>
+            <tr v-for="(detail, index) in ticket.details" :key="index">
+              <td style="width: 140px">{{ detail.description }}</td>
+              <td style="text-align: center; width: 40px">
+                {{ detail.quantity }}
+              </td>
+              <td style="text-align: center; width: 40px">
+                {{ detail.price }}
+              </td>
+              <td style="text-align: center; font-weight: bold">
+                {{ detail.subtotal }}
               </td>
             </tr>
           </tbody>
@@ -68,6 +85,7 @@
       <span class="bold">{{ ticket.body.total }}</span>
     </div>
   </div>
+  <!-- <div v-html="htmlContent"></div> -->
   <button
     :disabled="copied"
     @click="copyLinkToClipboard()"
@@ -150,6 +168,24 @@ const copyLinkToClipboard = async () => {
     console.error('Error al copiar el enlace:', error)
   }
 }
+
+// const htmlContent = ref('')
+// const fetchHtml = async () => {
+//   const backlink = import.meta.env.VITE_API_URL
+//   try {
+//     const response = await fetch(`${backlink}/invoice/1378/ticket/`, {
+//       headers: { Accept: 'text/html' },
+//     })
+//     htmlContent.value = await response.text()
+//   } catch (error) {
+//     console.error('Error fetching HTML:', error)
+//   }
+// }
+
+// // Llamar a la función cuando se monta el componente
+// onMounted(() => {
+//   fetchHtml()
+// })
 </script>
 
 <style scoped>
@@ -207,12 +243,13 @@ h1 {
   border-bottom: 1px solid #000;
   padding: 0px;
   text-align: center;
-  font-size: 14px;
+  font-size: 13px;
 }
 
 .details td {
   text-align: center;
   padding: 0px;
+  font-size: 12px;
 }
 
 .total {

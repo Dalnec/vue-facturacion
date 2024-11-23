@@ -1,6 +1,7 @@
 export interface Ticket {
   header: Header
   body: Body
+  details: Detail[]
 }
 
 export interface Body {
@@ -19,6 +20,14 @@ export interface Header {
   medidor: string
   full_name: string
   address: string
+}
+
+export interface Detail {
+  description: string
+  price: string
+  quantity: string
+  subtotal: string
+  is_income: boolean
 }
 
 export class Convert {

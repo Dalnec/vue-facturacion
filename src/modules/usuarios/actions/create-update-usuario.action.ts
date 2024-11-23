@@ -1,6 +1,7 @@
 import { api } from '@/api/api'
 import type { Usuario } from '../interfaces/usuario.interface'
 import { useAuthStore } from '../../auth/stores/auth.store'
+import type { UsuarioDetail } from '../interfaces/usuario-detail.interface'
 
 const authStore = useAuthStore()
 export const createUpdateUsuarioAction = async (usuario: Partial<Usuario>) => {
@@ -53,6 +54,24 @@ const createUsuarioAction = async (usuario: Partial<Usuario>) => {
 
     // console.log(data)
     return data
+  } catch (error) {
+    console.log(error)
+    throw new Error('Error getting usuario')
+  }
+}
+
+export const updateUsuarioDetailRestartAction = async (
+  usuarioId: number,
+  detail: Partial<UsuarioDetail>,
+) => {
+  try {
+    const { data, status } = await api.put<Usuario>(
+      `/usuario/${usuarioId}/restart_measured/`,
+      detail,
+    )
+
+    // console.log({ data, status })
+    return { data, status }
   } catch (error) {
     console.log(error)
     throw new Error('Error getting usuario')

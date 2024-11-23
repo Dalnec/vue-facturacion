@@ -68,7 +68,7 @@
         </div>
         <ul
           tabindex="0"
-          class="dropdown-content menu bg-base-100 rounded-box z-[1] w-45 p-2 shadow"
+          class="dropdown-content menu bg-base-100 rounded-box z-[1] w-[130px] p-2 shadow"
         >
           <li>
             <RouterLink :to="`/usuarios/form/${usuario.id}`">Editar</RouterLink>
@@ -81,8 +81,9 @@
                   usuarioStore.updateSelectedUsuario(usuario)
                 }
               "
-              >Facturación</RouterLink
             >
+              Facturación
+            </RouterLink>
           </li>
           <li>
             <a
@@ -92,8 +93,33 @@
                   usuarioStore.openPasswordModal = true
                 }
               "
-              >Contraseña</a
             >
+              Contraseña
+            </a>
+          </li>
+          <li>
+            <a
+              @click="
+                () => {
+                  usuarioStore.selectedUsuario = { ...usuario }
+                  usuarioStore.openRestartModal = true
+                }
+              "
+            >
+              Reiniciar
+            </a>
+          </li>
+          <li>
+            <RouterLink
+              :to="`/usuarios/details/${usuario.id}`"
+              @click="
+                () => {
+                  usuarioStore.updateSelectedUsuario(usuario)
+                }
+              "
+            >
+              Ver Detalle
+            </RouterLink>
           </li>
         </ul>
       </div>

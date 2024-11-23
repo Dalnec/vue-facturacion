@@ -9,6 +9,7 @@ export interface Usuario {
   id: number
   hasDebt: boolean
   makeInvoice: boolean
+  restart: boolean
   created: Date
   modified: Date
   ci: string

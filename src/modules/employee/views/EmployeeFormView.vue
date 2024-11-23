@@ -151,7 +151,7 @@
 </template>
 
 <script setup lang="ts">
-import { watch, watchEffect } from 'vue'
+import { watch } from 'vue'
 import { useMutation, useQuery } from '@tanstack/vue-query'
 import { useForm } from 'vee-validate'
 import * as yup from 'yup'
@@ -178,11 +178,7 @@ interface Props {
 
 const props = defineProps<Props>()
 
-const {
-  data: employee,
-  isError,
-  isLoading,
-} = useQuery({
+const { data: employee, isLoading } = useQuery({
   queryKey: ['employee', +props.employeeId],
   queryFn: () => getEmployeeByIdAction(+props.employeeId),
   retry: false,

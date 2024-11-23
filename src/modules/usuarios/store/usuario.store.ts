@@ -7,6 +7,7 @@ export const useUsuarioStore = defineStore('crudUsuario', () => {
   const selectedUsuarioId = ref<number>(0)
   // const selectedUsuario = ref<Usuario>({} as Usuario)
   const openPasswordModal = ref<boolean>(false)
+  const openRestartModal = ref<boolean>(false)
 
   const selectedUsuario = ref(
     useLocalStorage<Usuario>('treatUsuario', {} as Usuario),
@@ -23,6 +24,7 @@ export const useUsuarioStore = defineStore('crudUsuario', () => {
     selectedUsuarioId,
     selectedUsuario,
     openPasswordModal,
+    openRestartModal,
     // Getters
     // Actions
     updateSelectedUsuario,

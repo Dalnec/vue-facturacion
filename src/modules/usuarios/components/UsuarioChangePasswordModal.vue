@@ -7,9 +7,9 @@
           <form class="p-4" @submit.prevent="onSubmit()">
             <div class="first-col">
               <div class="mb-4">
-                <label for="newpassword" class="form-label"
-                  >Nueva Contraseña</label
-                >
+                <label for="newpassword" class="form-label">
+                  Nueva Contraseña
+                </label>
                 <CustomInput
                   v-model="newpassword"
                   v-bind="newpasswordAttrs"
@@ -18,9 +18,9 @@
                 />
               </div>
               <div class="mb-4">
-                <label for="newpassword2" class="form-label"
-                  >Repetir Nueva Contraseña</label
-                >
+                <label for="newpassword2" class="form-label">
+                  Repetir Nueva Contraseña
+                </label>
                 <CustomInput
                   v-model="newpassword2"
                   v-bind="newpassword2Attrs"
