@@ -7,8 +7,7 @@
         </span>
         <br />
         <span>
-          En caso de haber una lectura pendiente, se deberá registrar la lectura
-          pendiente.
+          En caso de haber una lectura pendiente, deberá registrarla.
         </span>
         <div class="modal-action flex flex-col bg-white rounded-lg p-0 mt-1">
           <form class="px-4 py-2" @submit.prevent="onSubmit()">
