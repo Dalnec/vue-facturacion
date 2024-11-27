@@ -127,7 +127,7 @@
                     v-bind="profileAttrs"
                   >
                     <option value="">Seleccione</option>
-                    <option value="2">COBRADOR</option>
+                    <option value="2">LECTURADOR</option>
                     <option value="1">ADMINISTRADOR</option>
                   </select>
                   <span class="text-red-500" v-if="errors.profile">

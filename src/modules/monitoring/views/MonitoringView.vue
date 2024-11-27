@@ -15,10 +15,8 @@
           <p>Estado del Nivel de Agua en el tanque barrial</p>
         </div>
         <div>
-          <div
-            class="flex grid grid-cols-1 md:grid-cols-5 xl:grid-cols-5 gap-2 items-end"
-          >
-            <div class="rounded-xl col-span-2">
+          <div class="flex grid grid-cols-1 lg:grid-cols-5 gap-2 items-end">
+            <div class="rounded-xl col-span-1 lg:col-span-2">
               <label class="input input-bordered flex items-center gap-2">
                 Desde:
                 <input
@@ -35,7 +33,7 @@
                 />
               </label>
             </div>
-            <div class="rounded-xl col-span-2">
+            <div class="rounded-xl col-span-1 lg:col-span-2">
               <label class="input input-bordered flex items-center gap-2">
                 Hasta:
                 <input
@@ -80,9 +78,9 @@
           </div>
         </div>
       </div>
-      <div class="grid grid-cols-1 md:grid-cols-7 gap-4">
+      <div class="grid grid-cols-7 gap-4">
         <!-- cards -->
-        <div class="col-span-3">
+        <div class="col-span-7 lg:col-span-3">
           <div class="card bg-base-100 shadow-xl p-0 h-full">
             <div
               v-if="lastLoading"
@@ -95,20 +93,45 @@
             </div>
             <div
               v-else
-              class="grid grid-cols-7 items-center card-body p-4 m-0 h-[50vh]"
+              class="grid grid-cols-7 items-center card-body p-4 m-0 h-[45vh]"
             >
               <div class="col-span-4 flex justify-center">
-                <div class="w-[90%]">
+                <div class="w-[85%]">
                   <DoughnutChart :data="dataDoughnut" />
+                  <span
+                    class="flex justify-center w-full mt-2 font-bold text-gray-600"
+                  >
+                    {{ parseFloat(lastMonitoring?.liters ?? '0').toFixed(0) }}
+                    litros aprox.
+                  </span>
                 </div>
               </div>
               <!-- detail -->
               <div class="col-span-3 flex flex-col gap-2">
+                <!-- <span>Altura: 240cm</span> -->
+                <div
+                  class="flex items-center justify-evenly gap-1 text-sm text-gray-400 font-bold"
+                >
+                  <div>
+                    <span>Capacidad:</span><br />
+                    <span>{{ lastMonitoring?.capacity }} litros</span>
+                  </div>
+                  <div>
+                    <span>Altura:</span><br />
+                    <span>{{ lastMonitoring?.height }} cm</span>
+                  </div>
+                </div>
                 <div class="flex items-center gap-2">
                   <DropIcon class="w-7 h-7" />
                   <div class="flex flex-col">
                     <span class="font-bold">Nivel del Agua</span>
-                    <span>{{ lastMonitoring?.percentage }} %</span>
+                    <span>
+                      {{ lastMonitoring?.percentage }}%
+                      {{
+                        parseFloat(lastMonitoring?.height ?? '0') -
+                        parseFloat(lastMonitoring?.measured ?? '0')
+                      }}cm
+                    </span>
                   </div>
                 </div>
                 <div class="flex items-center gap-2">
@@ -201,9 +224,9 @@
           </div>
         </div>
 
-        <div class="col-span-4">
+        <div class="col-span-7 lg:col-span-4">
           <div class="card bg-base-100 shadow-xl p-0 h-full">
-            <div class="card-body p-4 h-[50vh]">
+            <div class="card-body p-4 h-[45vh]">
               <div
                 v-if="chartLoading"
                 class="h-full w-full flex justify-center items-center"

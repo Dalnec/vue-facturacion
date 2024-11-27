@@ -82,7 +82,7 @@
         <label for="stock" class="form-label">Género</label>
         <select class="form-control">
           <option value="">Seleccione</option>
-          <option value="2">COBRADOR</option>
+          <option value="2">LECTURADOR</option>
           <option value="1">ADMINISTRADOR</option>
         </select>
       </div> -->

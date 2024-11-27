@@ -16,6 +16,9 @@ export interface Monitoring {
   battery: string
   status: string
   observations: string
+  liters: string
+  height: string
+  capacity: string
 }
 export class Convert {
   public static toMonitoringResponse(json: string): MonitoringResponse {

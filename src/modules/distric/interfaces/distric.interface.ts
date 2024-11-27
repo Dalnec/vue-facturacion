@@ -31,4 +31,5 @@ export interface Settings {
   interval_time_device: number
   height: number
   width: number
+  length: number
 }

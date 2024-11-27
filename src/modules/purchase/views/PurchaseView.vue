@@ -159,6 +159,7 @@
                             openModal = true
                           }
                         "
+                        :disabled="index !== 0"
                       >
                         Editar
                       </button>

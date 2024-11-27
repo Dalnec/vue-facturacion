@@ -31,7 +31,16 @@
             v-model.number="inputValue!.width"
             :disabled="edit"
           />
+          <label class="form-label p-0 m-0" for="">Longitud del Tanque:</label>
+          <input
+            type="text"
+            :placeholder="placeholder ?? 'Ingresar valor'"
+            class="input input-bordered input-primary w-full flex-1 mb-2"
+            v-model.number="inputValue!.length"
+            :disabled="edit"
+          />
           <div class="flex justify-end mt-5">
+            {{ inputValue }}
             <button
               class="btn mr-4"
               @click.prevent="
@@ -114,13 +123,25 @@ watch(
   () => {
     if (!settings) return
 
-    inputValue.value = { ...settings.value }
+    inputValue.value = {
+      ...settings.value,
+    }
   },
   {
     deep: true,
     immediate: true,
   },
 )
+
+// Computed property to handle the interval in minutes
+// const intervalInMinutes = computed({
+//   get: () => (inputValue.value?.interval_time_device ?? 0) / 60000, // Convert ms to minutes
+//   set: (value: number) => {
+//     if (inputValue.value) {
+//       inputValue.value.interval_time_device = value * 60000 // Convert minutes back to ms
+//     }
+//   },
+// })
 
 const submitValue = async () => {
   if (!inputValue.value!.interval_time_device) {
@@ -132,6 +153,7 @@ const submitValue = async () => {
     interval_time_device: inputValue.value!.interval_time_device,
     height: inputValue.value!.height,
     width: inputValue.value!.width,
+    length: inputValue.value!.length,
   })
   if (resp.status !== 200) {
     toast.error('Error al actualizar', {
