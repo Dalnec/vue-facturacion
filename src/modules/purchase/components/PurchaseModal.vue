@@ -35,6 +35,13 @@
                   @click="
                     () => {
                       emits('close')
+                      resetForm({
+                        values: {
+                          id: null,
+                          price: null,
+                          observations: null,
+                        },
+                      })
                     }
                   "
                 >
@@ -122,7 +129,7 @@ const onSubmit = handleSubmit(async values => {
   isLoading.value = false
 
   if (status != 200 && status != 201) {
-    toast.error('Error intento de registro o edición', {
+    toast.error('Error de Accion', {
       timeout: 2000,
     })
     return
@@ -135,6 +142,12 @@ const onSubmit = handleSubmit(async values => {
   )
   emits('reload')
   emits('close')
-  resetForm()
+  resetForm({
+    values: {
+      id: null,
+      price: null,
+      observations: null,
+    },
+  })
 })
 </script>

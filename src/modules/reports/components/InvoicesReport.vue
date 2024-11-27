@@ -97,7 +97,7 @@ interface FilterParams {
 const currentYear = new Date().getFullYear()
 const years = computed(() => {
   const range = []
-  for (let i = currentYear - 5; i <= currentYear; i++) {
+  for (let i = 2024; i <= currentYear; i++) {
     range.push(i.toString())
   }
   return range

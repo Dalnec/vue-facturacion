@@ -2,7 +2,7 @@
   <PurchaseModal
     :open="openModal"
     :purchase="selectedPurchase"
-    @close="openModal = false"
+    @close="[(openModal = false), (selectedPurchase = {})]"
     @reload="refetch()"
   />
   <div class="card glass w-full m-3">
