@@ -36,7 +36,7 @@
                   />
                 </div>
                 <div class="mb-4">
-                  <label for="family" class="form-label">Familia</label>
+                  <label for="family" class="form-label">Representante</label>
                   <CustomInput
                     v-model="representative"
                     v-bind="representativeAttrs"

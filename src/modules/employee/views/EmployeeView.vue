@@ -29,8 +29,8 @@
     <div class="card-body px-6 pt-6 pb-0">
       <div class="flex justify-between items-center">
         <div>
-          <h2 class="card-title text-primary font-bold">Empleados</h2>
-          <p>Control de Empleados, crear y editar empleados</p>
+          <h2 class="card-title text-primary font-bold">Encargados</h2>
+          <p>Control de Encargados, crear y editar</p>
         </div>
         <div class="">
           <RouterLink to="/employee/form/create" class="btn btn-primary">
@@ -86,7 +86,7 @@
           <thead>
             <tr class="text-sm">
               <th class="text-center p-1 w-[5%]"></th>
-              <th class="text-center p-1 w-[12%]">Empleado</th>
+              <th class="text-center p-1 w-[12%]">Encargado</th>
               <th class="text-center p-1 w-[5%]">Celular</th>
               <th class="text-center p-1 w-[10%]">Dirección</th>
               <th class="text-center p-1 w-[10%]">Correo</th>

@@ -26,8 +26,8 @@
           </svg>
         </RouterLink>
         <div>
-          <h2 class="card-title text-primary font-bold">Empleados</h2>
-          <p>{{ values.id ? 'Edición' : 'Creación' }} de Empleados</p>
+          <h2 class="card-title text-primary font-bold">Encargados</h2>
+          <p>{{ values.id ? 'Edición' : 'Creación' }} de Encargados</p>
         </div>
         <!-- Boton de accion -->
       </div>
@@ -239,7 +239,7 @@ watch(isSuccess, value => {
   if (!value) return
 
   toast.success(
-    `Empleado ${values.id ? 'Actualizado' : 'Creado'} correctamente`,
+    `Encargado ${values.id ? 'Actualizado' : 'Creado'} correctamente`,
     {
       timeout: 2000,
     },

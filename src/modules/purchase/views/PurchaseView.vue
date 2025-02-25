@@ -123,7 +123,7 @@
                     <th class="text-center p-1 w-[10%]">Fecha Registro</th>
                     <th class="text-center p-1 w-[10%]">Última Modificación</th>
                     <th class="text-center p-1 w-[10%]">Tarifa</th>
-                    <th class="text-center p-1 w-[10%]">Empleado</th>
+                    <th class="text-center p-1 w-[10%]">Encargado</th>
                     <th class="text-center p-1 w-[10%]">Observaciones</th>
                     <th class="text-center p-1 w-[10%]">Acciones</th>
                   </tr>

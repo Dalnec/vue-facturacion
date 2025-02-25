@@ -30,7 +30,7 @@
       <li>
         <RouterLink to="/employee">
           <EmployeeIcon />
-          Empleado
+          Encargados
         </RouterLink>
       </li>
       <li>
