@@ -60,7 +60,7 @@
                 {{ ticket.body.price }}
               </td>
               <td style="text-align: center; font-weight: bold">
-                {{ ticket.body.total }}
+                {{ ticket.body.subtotal }}
               </td>
             </tr>
             <tr v-for="(detail, index) in ticket.details" :key="index">

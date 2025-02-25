@@ -1,7 +1,7 @@
 <template>
   <div class="navbar bg-primary">
     <div class="flex-1">
-      <svg
+      <!-- <svg
         class="w-8 h-8 mr-2"
         viewBox="0 0 24 24"
         fill="none"
@@ -25,7 +25,9 @@
             fill="#dbecf5"
           ></path>
         </g>
-      </svg>
+      </svg> -->
+      <!-- Imagen desde assets -->
+      <img src="/icon-facturacion.png" alt="logo" class="w-[60px] h-[55px]" />
       <a class="text-xl font-bold text-white">
         Sistema de Facturación y Monitoreo
       </a>

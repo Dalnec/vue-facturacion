@@ -8,6 +8,7 @@ export interface Body {
   previous_reading: string
   actual_reading: string
   price: string
+  subtotal: string
   total: string
   previous_month: string
   actual_month: string
