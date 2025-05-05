@@ -2,7 +2,7 @@
   <SettingsModal
     :open="openSettingsModal"
     @close="openSettingsModal = false"
-    title="Ajustar Intervalo de Tiempo"
+    title="Configuración General"
     subtitle="Establecer tiempo de envio de datos al servidor"
   />
   <div class="card glass w-full m-3">

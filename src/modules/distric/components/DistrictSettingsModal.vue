@@ -5,40 +5,60 @@
       <p v-show="subtitle" class="">{{ subtitle }}</p>
       <div v-if="isLoading" class="modal-action flex flex-col">Cargando...</div>
       <div v-else class="modal-action flex flex-col">
-        <form>
-          <label class="form-label p-0 m-0" for="">Intervalo de Tiempo:</label>
-          <input
-            ref="inputRef"
-            type="text"
-            :placeholder="placeholder ?? 'Ingresar valor'"
-            class="input input-bordered input-primary w-full flex-1 mb-2"
-            v-model.number="inputValue!.interval_time_device"
-            :disabled="edit"
-          />
-          <label class="form-label p-0 m-0" for="">Altura del Tanque:</label>
-          <input
-            type="text"
-            :placeholder="placeholder ?? 'Ingresar valor'"
-            class="input input-bordered input-primary w-full flex-1 mb-2"
-            v-model.number="inputValue!.height"
-            :disabled="edit"
-          />
-          <label class="form-label p-0 m-0" for="">Ancho del Tanque:</label>
-          <input
-            type="text"
-            :placeholder="placeholder ?? 'Ingresar valor'"
-            class="input input-bordered input-primary w-full flex-1 mb-2"
-            v-model.number="inputValue!.width"
-            :disabled="edit"
-          />
-          <label class="form-label p-0 m-0" for="">Longitud del Tanque:</label>
-          <input
-            type="text"
-            :placeholder="placeholder ?? 'Ingresar valor'"
-            class="input input-bordered input-primary w-full flex-1 mb-2"
-            v-model.number="inputValue!.length"
-            :disabled="edit"
-          />
+        <form class="p-2 grid grid-cols-1 gap-2 items-center">
+          <div class="grid grid-cols-4 gap-4 items-center">
+            <div class="col-span-2">
+              <label class="form-label p-0 m-0" for="">
+                Campo Carnet de Identidad Obligatorio:
+              </label>
+            </div>
+            <div class="col-span-2">
+              <input
+                type="checkbox"
+                class="toggle toggle-info"
+                v-model="inputValue!.force_ci"
+              />
+            </div>
+          </div>
+          <div class="grid grid-cols-4 gap-4 items-center">
+            <div class="col-span-2">
+              <label class="form-label p-0 m-0" for="">
+                Autogenerar Mora:
+              </label>
+            </div>
+            <div class="col-span-2">
+              <input
+                type="checkbox"
+                class="toggle toggle-info"
+                v-model="inputValue!.auto_penalty"
+              />
+            </div>
+          </div>
+          <div>
+            <label class="form-label p-0 m-0" for=""> Monto de Mora: </label>
+            <input
+              ref="inputRef"
+              type="text"
+              :placeholder="placeholder ?? 'Ingresar valor'"
+              class="input input-bordered input-primary w-full flex-1 mb-2"
+              v-model.number="inputValue!.penalty_amount"
+              :disabled="edit"
+            />
+          </div>
+          <div class="grid grid-cols-4 gap-4 items-center">
+            <div class="col-span-2">
+              <label class="form-label p-0 m-0" for="">
+                Cobrar Mes Anterior:
+              </label>
+            </div>
+            <div class="col-span-2">
+              <input
+                type="checkbox"
+                class="toggle toggle-info"
+                v-model="inputValue!.collect_previous_month"
+              />
+            </div>
+          </div>
           <div class="flex justify-end mt-5">
             <!-- {{ inputValue }} -->
             <button
@@ -133,16 +153,6 @@ watch(
   },
 )
 
-// Computed property to handle the interval in minutes
-// const intervalInMinutes = computed({
-//   get: () => (inputValue.value?.interval_time_device ?? 0) / 60000, // Convert ms to minutes
-//   set: (value: number) => {
-//     if (inputValue.value) {
-//       inputValue.value.interval_time_device = value * 60000 // Convert minutes back to ms
-//     }
-//   },
-// })
-
 const submitValue = async () => {
   if (!inputValue.value!.interval_time_device) {
     inputRef.value?.focus()
@@ -154,6 +164,10 @@ const submitValue = async () => {
     height: inputValue.value!.height,
     width: inputValue.value!.width,
     length: inputValue.value!.length,
+    force_ci: inputValue.value!.force_ci,
+    auto_penalty: inputValue.value!.auto_penalty,
+    penalty_amount: inputValue.value!.penalty_amount,
+    collect_previous_month: inputValue.value!.collect_previous_month,
   })
   if (resp.status !== 200) {
     toast.error('Error al actualizar', {

@@ -32,4 +32,8 @@ export interface Settings {
   height: number
   width: number
   length: number
+  force_ci: boolean
+  auto_penalty: boolean
+  penalty_amount: number
+  collect_previous_month: boolean
 }

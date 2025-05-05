@@ -1,12 +1,28 @@
 <template>
+  <DisctrictSettingsModal
+    :open="openSettingsModal"
+    @close="openSettingsModal = false"
+    title="Configuración General"
+    subtitle=""
+  />
   <div class="card glass w-full m-3">
     <div class="card-body px-6 pt-6 pb-0">
-      <div class="flex justify-start items-center">
+      <div class="flex justify-between items-center">
         <div>
           <h2 class="card-title text-primary font-bold">Barrio/OTB</h2>
           <p>Informacion del Barrio/OTB</p>
         </div>
         <!-- Boton de accion -->
+        <button
+          class="btn btn-secondary btn-circle"
+          @click="
+            () => {
+              openSettingsModal = true
+            }
+          "
+        >
+          <SettingsIcon />
+        </button>
       </div>
 
       <div class="flex justify-center w-full items-center">
@@ -97,8 +113,10 @@ import {
   getDistricByIdAction,
   updateDistricAction,
 } from '../action/get-distric.action'
-import { onMounted, watch } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import { useToast } from 'vue-toastification'
+import SettingsIcon from '@/modules/common/icons/SettingsIcon.vue'
+import DisctrictSettingsModal from '../components/DistrictSettingsModal.vue'
 
 const toast = useToast()
 
@@ -109,6 +127,8 @@ const validationSchema = yup.object({
   phone: yup.string().required(),
   email: yup.string().required(),
 })
+
+const openSettingsModal = ref(false)
 
 const { defineField, errors, handleSubmit, resetForm } = useForm({
   validationSchema,
