@@ -154,6 +154,10 @@ const submitValue = async () => {
     height: inputValue.value!.height,
     width: inputValue.value!.width,
     length: inputValue.value!.length,
+    force_ci: inputValue.value!.force_ci,
+    auto_penalty: inputValue.value!.auto_penalty,
+    penalty_amount: inputValue.value!.penalty_amount,
+    collect_previous_month: inputValue.value!.collect_previous_month,
   })
   if (resp.status !== 200) {
     toast.error('Error al actualizar', {
