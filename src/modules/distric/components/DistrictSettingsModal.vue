@@ -93,10 +93,7 @@
     </div>
   </dialog>
 
-  <div
-    v-if="open"
-    class="modal-backdrop fixed top-0 left-0 z-0 bg-black opacity-70 w-screen h-screen"
-  ></div>
+  <div v-if="open" class="fixed inset-0 z-[50] bg-black/70"></div>
 </template>
 
 <script setup lang="ts">

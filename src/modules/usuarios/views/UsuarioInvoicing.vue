@@ -179,7 +179,7 @@
                     <label
                       for="my-drawer-4"
                       aria-label="close sidebar"
-                      class="drawer-overlay opacity-10"
+                      class="drawer-overlay opacity-30"
                     ></label>
                     <div
                       class="flex flex-col bg-base-200 text-base-content min-h-full w-80 p-4"

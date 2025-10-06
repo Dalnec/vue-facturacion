@@ -91,10 +91,7 @@
                 <p>Cargando...</p>
               </div>
             </div>
-            <div
-              v-else
-              class="grid grid-cols-7 items-center card-body p-4 m-0 h-[45vh]"
-            >
+            <div v-else class="grid grid-cols-7 items-center card-body p-4 m-0">
               <div class="col-span-4 flex justify-center">
                 <div class="w-[85%]">
                   <DoughnutChart :data="dataDoughnut" />
@@ -437,7 +434,7 @@ const dataDoughnut = computed(() => {
 })
 
 watch(lastMonitoring, newLastMonitoring => {
-  console.log(newLastMonitoring)
+  // console.log(newLastMonitoring)
   chartRefetch()
   monitoringsRefetch()
 })

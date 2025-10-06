@@ -9,21 +9,19 @@ import { Doughnut } from 'vue-chartjs'
 const centerTextPlugin = {
   id: 'mydoughnut',
   beforeDraw(chart) {
-    const {
-      ctx,
-      chartArea: { width, height },
-      data,
-    } = chart
+    const { ctx, chartArea, data } = chart
+    if (!chartArea) return
+    const { width, height, top, left } = chartArea
+
+    const centerX = left + width / 2
+    const centerY = top + height / 2
+
     ctx.save()
-    ctx.font = '30px Arial'
+    ctx.font = '20px Arial'
     ctx.textAlign = 'center'
     ctx.textBaseline = 'middle'
     ctx.fillStyle = '#333'
-    ctx.fillText(
-      `${data.datasets[0].data[0]}%`,
-      width / 2,
-      (height + (height + 5) / 4) / 2,
-    )
+    ctx.fillText(`${data.datasets[0].data[0]}%`, centerX, centerY)
   },
 }
 
