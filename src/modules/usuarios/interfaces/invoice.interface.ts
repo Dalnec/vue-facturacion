@@ -51,6 +51,7 @@ export interface HistoryItem {
   action: ActionType
   invoice: number | string
   employee: number | string // puede venir nombre o id
+  employee_names?: string
 }
 
 export interface InvoiceHistoryResponse {

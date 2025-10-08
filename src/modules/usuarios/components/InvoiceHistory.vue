@@ -34,7 +34,7 @@
       </div>
       <div class="flex justify-between">
         <span class="">Empleado: </span>
-        <span class="">El nombre del empleado</span>
+        <span class="">{{ item.employee_names }}</span>
       </div>
 
       <div v-if="item.changes && Object.keys(item.changes).length">
