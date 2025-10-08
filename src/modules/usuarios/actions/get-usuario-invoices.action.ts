@@ -23,3 +23,15 @@ export const getInvoicesAction = async (
     throw new Error('Error getting usuarios')
   }
 }
+
+export const getInvoiceHistoryAction = async (id: number) => {
+  try {
+    const { data } = await api.get<InvoiceResponse>(`/invoice/${id}/history/`)
+
+    // console.log('api historyinvoices', data)
+    return data.results
+  } catch (error) {
+    console.log(error)
+    throw new Error('Error getting usuarios')
+  }
+}

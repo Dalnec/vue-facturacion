@@ -41,6 +41,38 @@
     </template>
   </CustomModal>
 
+  <CustomModal :open="openHistory" @close="() => (openHistory = false)">
+    <template #header>
+      <h3 class="text-lg font-bold">Historial Modificaciones</h3>
+    </template>
+    <template #body>
+      <div class="history">
+        <!-- <div v-if="loading">Cargando historial…</div> -->
+        <!-- <div v-else-if="error" class="error">{{ error }}</div> -->
+        <!-- <div v-else-if="!items.length">Sin cambios registrados.</div> -->
+
+        <!-- <div v-else class="timeline"> -->
+        <!-- <div v-for="item in history" :key="item.id" class="entry"></div> -->
+        <!-- </div> -->
+        <InvoiceHistory />
+      </div>
+    </template>
+    <template #actions>
+      <div class="flex justify-end">
+        <button
+          class="btn mr-4"
+          @click="
+            () => {
+              openHistory = false
+            }
+          "
+        >
+          Cerrar
+        </button>
+      </div>
+    </template>
+  </CustomModal>
+
   <ConfirmModal
     ref="openConfirmModalRef"
     :open="invoiceStore.openPaymentModal"
@@ -143,7 +175,19 @@
                 <td class="flex justify-center text-center p-1">
                   <button
                     v-if="invoice.status !== 'P'"
-                    class="btn btn-warning btn-outline btn-xs mr-4"
+                    class="btn btn-warning btn-outline btn-xs mr-1"
+                    @click="
+                      () => {
+                        history = getInvoiceHistoryAction(invoice.id ?? 0)
+                        openHistory = true
+                      }
+                    "
+                  >
+                    Ver
+                  </button>
+                  <button
+                    v-if="invoice.status !== 'P'"
+                    class="btn btn-warning btn-outline btn-xs mr-1"
                     @click="
                       () => {
                         editValues = { ...invoice }
@@ -214,10 +258,14 @@ import { useRoute } from 'vue-router'
 import { useUsuarioStore } from '../store/usuario.store'
 import { ref, watch, watchEffect } from 'vue'
 import { useQuery, useQueryClient } from '@tanstack/vue-query'
-import { getInvoicesAction } from '../actions/get-usuario-invoices.action'
+import {
+  getInvoiceHistoryAction,
+  getInvoicesAction,
+} from '../actions/get-usuario-invoices.action'
 import ButtonPagination from '@/modules/common/components/ButtonPagination.vue'
 // import TicketInvoiceIcon from '@/modules/common/icons/TicketInvoiceIcon.vue'
 import InvoiceTicket from '../components/InvoiceTicket.vue'
+import InvoiceHistory from '../components/InvoiceHistory.vue'
 import ConfirmModal from '@/modules/common/components/ConfirmModal.vue'
 import { useInvoiceStore } from '../store/invoice.store'
 import {
@@ -255,6 +303,8 @@ const editValues = ref<Invoice>({
 const openDrawer = ref(false)
 const openEditMeasured = ref(false)
 const loadingEditMeasured = ref(false)
+const openHistory = ref(false)
+const history = ref<Invoice[]>([])
 const openDrawerChange = () => {
   openDrawer.value = !openDrawer.value
   window.scrollTo({ top: 0, behavior: 'smooth' })
