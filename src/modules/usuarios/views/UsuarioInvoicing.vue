@@ -47,14 +47,17 @@
     </template>
     <template #body>
       <div class="history">
-        <!-- <div v-if="loading">Cargando historial…</div> -->
-        <!-- <div v-else-if="error" class="error">{{ error }}</div> -->
-        <!-- <div v-else-if="!items.length">Sin cambios registrados.</div> -->
-
-        <!-- <div v-else class="timeline"> -->
-        <!-- <div v-for="item in history" :key="item.id" class="entry"></div> -->
-        <!-- </div> -->
-        <InvoiceHistory />
+        <InvoiceHistory
+          :history="history"
+          :invoice="selectedInvoice"
+          @close="
+            () => {
+              openHistory = false
+              history = []
+              selectedInvoice = undefined
+            }
+          "
+        />
       </div>
     </template>
     <template #actions>
@@ -175,15 +178,16 @@
                 <td class="flex justify-center text-center p-1">
                   <button
                     v-if="invoice.status !== 'P'"
-                    class="btn btn-warning btn-outline btn-xs mr-1"
+                    class="btn btn-info btn-outline btn-xs mr-1 hover:text-white"
                     @click="
-                      () => {
-                        history = getInvoiceHistoryAction(invoice.id ?? 0)
+                      async () => {
+                        history = await getInvoiceHistoryAction(invoice.id ?? 0)
+                        selectedInvoice = invoice
                         openHistory = true
                       }
                     "
                   >
-                    Ver
+                    <DocumentIcon class="w-4 h-4 hover:text-white" />
                   </button>
                   <button
                     v-if="invoice.status !== 'P'"
@@ -274,7 +278,11 @@ import {
 } from '../actions/update-invoice.action'
 import { useToast } from 'vue-toastification'
 import CustomModal from '@/modules/common/components/CustomModal.vue'
-import type { Invoice } from '../interfaces/invoice.interface'
+import type {
+  Invoice,
+  // InvoiceHistoryResponse,
+} from '../interfaces/invoice.interface'
+import DocumentIcon from '@/modules/common/icons/DocumentIcon.vue'
 
 const route = useRoute()
 const usuarioStore = useUsuarioStore()
@@ -304,7 +312,9 @@ const openDrawer = ref(false)
 const openEditMeasured = ref(false)
 const loadingEditMeasured = ref(false)
 const openHistory = ref(false)
-const history = ref<Invoice[]>([])
+const history = ref()
+const selectedInvoice = ref<Invoice>()
+
 const openDrawerChange = () => {
   openDrawer.value = !openDrawer.value
   window.scrollTo({ top: 0, behavior: 'smooth' })

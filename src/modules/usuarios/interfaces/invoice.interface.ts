@@ -33,3 +33,29 @@ export class Convert {
     return JSON.stringify(value)
   }
 }
+
+/* Tipos */
+type ActionType = 'update' | 'create' | 'delete'
+export interface FieldChange {
+  new: string | number | boolean | null
+  old: string | number | boolean | null
+}
+export type ChangesMap = Record<string, FieldChange>
+
+export interface HistoryItem {
+  id: number
+  created: string // 'YYYY-MM-DD HH:mm:ss'
+  modified: string // 'YYYY-MM-DD HH:mm:ss'
+  changed_at?: string // opcional
+  changes?: ChangesMap
+  action: ActionType
+  invoice: number | string
+  employee: number | string // puede venir nombre o id
+}
+
+export interface InvoiceHistoryResponse {
+  count: number
+  next: null
+  previous: null
+  results: HistoryItem[]
+}

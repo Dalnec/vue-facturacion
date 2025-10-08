@@ -1,5 +1,8 @@
 import { api } from '@/api/api'
-import type { InvoiceResponse } from '../interfaces/invoice.interface'
+import type {
+  InvoiceResponse,
+  InvoiceHistoryResponse,
+} from '../interfaces/invoice.interface'
 interface FilterParams {
   search: string | null
   hasDebt: boolean | null
@@ -26,10 +29,12 @@ export const getInvoicesAction = async (
 
 export const getInvoiceHistoryAction = async (id: number) => {
   try {
-    const { data } = await api.get<InvoiceResponse>(`/invoice/${id}/history/`)
+    const { data } = await api.get<InvoiceHistoryResponse>(
+      `/invoice/${id}/history/`,
+    )
 
     // console.log('api historyinvoices', data)
-    return data.results
+    return data
   } catch (error) {
     console.log(error)
     throw new Error('Error getting usuarios')

@@ -5,13 +5,13 @@
         class="font-bold text-lg mb-2 bg-white border border-gray-200 rounded-lg p-4 w-1/2 text-center"
       >
         Facturación:
-        <p class="text-gray-700 text-base">Mayo 2025</p>
+        <p class="text-gray-700 text-base">{{ invoice?.period }}</p>
       </div>
       <div
         class="font-bold text-lg mb-2 bg-white border border-gray-200 rounded-lg p-4 w-1/2 text-center"
       >
         Creado:
-        <p class="text-gray-700 text-base">2025-05-05 20:05</p>
+        <p class="text-gray-700 text-base">{{ invoice?.created }}</p>
       </div>
     </div>
   </div>
@@ -57,36 +57,23 @@
     </article>
   </section>
 
-  <div v-else class="">Sin resultados</div>
+  <div v-else class="">
+    <article
+      class="bg-white border border-gray-200 rounded-lg p-4 mb-2 flex justify-center"
+    >
+      Sin resultados
+    </article>
+  </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-
-/* Tipos */
-type ActionType = 'update' | 'create' | 'delete'
-
-export interface FieldChange {
-  new: string | number | boolean | null
-  old: string | number | boolean | null
-}
-
-export type ChangesMap = Record<string, FieldChange>
-
-export interface HistoryItem {
-  id: number
-  created: string // 'YYYY-MM-DD HH:mm:ss'
-  modified: string // 'YYYY-MM-DD HH:mm:ss'
-  changed_at?: string // opcional
-  changes?: ChangesMap
-  action: ActionType
-  invoice: number | string
-  employee: number | string // puede venir nombre o id
-}
+import { ref, watch } from 'vue'
+import type { HistoryItem, Invoice } from '../interfaces/invoice.interface'
 
 /* Props */
 const props = defineProps<{
   history?: HistoryItem[]
+  invoice?: Invoice
 }>()
 
 /* Emits */
@@ -95,51 +82,13 @@ defineEmits<{
 }>()
 
 /* Estado */
-const historyData = ref<HistoryItem[]>(
-  props.history && props.history.length
-    ? props.history
-    : [
-        {
-          id: 1,
-          created: '2025-10-06 02:42:57',
-          modified: '2025-10-06 02:42:57',
-          changed_at: '2025-10-06 02:42:57',
-          changes: { measured: { new: '1001.00', old: '999.00' } },
-          action: 'update',
-          invoice: 373,
-          employee: 1,
-        },
-        {
-          id: 1,
-          created: '2025-10-06 02:42:57',
-          modified: '2025-10-06 02:42:57',
-          changed_at: '2025-10-06 02:42:57',
-          changes: { measured: { new: '1001.00', old: '999.00' } },
-          action: 'update',
-          invoice: 373,
-          employee: 1,
-        },
-        {
-          id: 1,
-          created: '2025-10-06 02:42:57',
-          modified: '2025-10-06 02:42:57',
-          changed_at: '2025-10-06 02:42:57',
-          changes: { measured: { new: '1001.00', old: '999.00' } },
-          action: 'update',
-          invoice: 373,
-          employee: 1,
-        },
-        {
-          id: 1,
-          created: '2025-10-06 02:42:57',
-          modified: '2025-10-06 02:42:57',
-          changed_at: '2025-10-06 02:42:57',
-          changes: { measured: { new: '1001.00', old: '999.00' } },
-          action: 'update',
-          invoice: 373,
-          employee: 1,
-        },
-      ],
+const historyData = ref<HistoryItem[]>(props.history || [])
+
+watch(
+  () => props.history,
+  () => {
+    historyData.value = props.history || []
+  },
 )
 
 /* Utils */
