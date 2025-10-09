@@ -125,9 +125,12 @@
                     <span>
                       {{ lastMonitoring?.percentage }}%
                       {{
-                        parseFloat(lastMonitoring?.height ?? '0') -
-                        parseFloat(lastMonitoring?.measured ?? '0')
-                      }}cm
+                        diferencia(
+                          parseFloat(lastMonitoring?.height ?? '0'),
+                          parseFloat(lastMonitoring?.measured ?? '0'),
+                        )
+                      }}
+                      cm
                     </span>
                   </div>
                 </div>
@@ -348,6 +351,10 @@ const filterParams = reactive({
   read_date_range_after: `${formatedDate()} 00:00:00`,
   read_date_range_before: `${formatedDate()} 23:59:59`,
 })
+
+const diferencia = (a: number, b: number) => {
+  return (a - b).toFixed(2)
+}
 
 const {
   data: monitorings,
